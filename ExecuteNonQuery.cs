@@ -18,6 +18,8 @@ namespace SP_Execute
         public static ThisServices _manejoExecuterServices = new ThisServices();
         static int Times = 1;
         static int Errors = 0;
+        static int TimesDay = 1;
+        static int ExecutedDay = 1;
         public ExecuteNonQuery()
         {
             InitializeComponent();
@@ -36,14 +38,21 @@ namespace SP_Execute
                 CompareTime = DateTime.Parse("23:00:00");
                 if (ThisTime > CompareTime)
                 {
-                    lblData.Text = _manejoExecuterServices.ExecuterSP();
-                    Times++;
-                    txtExec.Text = Times.ToString();
-
-                    if (!String.IsNullOrEmpty(_manejoExecuterServices.GetErrorProcess()))
+                    if(TimesDay == 1)
                     {
-                        Errors++;
-                        lblErrors.Text = Errors.ToString();
+                        lblData.Text = _manejoExecuterServices.ExecuterSP();
+                        Times++;
+                        txtExec.Text = Times.ToString();
+                        TimesDay = 2;
+
+                        if (!String.IsNullOrEmpty(_manejoExecuterServices.GetErrorProcess()))
+                        {
+                            Errors++;
+                            lblErrors.Text = Errors.ToString();
+                        }
+                    }else
+                    {
+                        TimesDay = 1;
                     }
                 }
             } while (Times > 0);
